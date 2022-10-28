@@ -25,7 +25,7 @@ internal object BloctoWebMethod : BloctoMethod {
         accountProofData: AccountProofResolvedData?
     ): User? {
         val response = execHttpPost(
-            url = getAuthnUrl(Fcl.isMainnet),
+            url = getAuthnUrl(Fcl.config.env),
             data = accountProofData?.toJsonObject()
         )
 

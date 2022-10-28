@@ -26,7 +26,13 @@ object AppUtils {
 
     internal val flowApi
         get() = Flow.newAccessApi(
-            host = if (Fcl.isMainnet) FLOW_MAINNET_ENDPOINT else FLOW_TESTNET_ENDPOINT
+            when (Fcl.config.env) {
+                Network.MAINNET -> FLOW_MAINNET_ENDPOINT
+                Network.TESTNET -> FLOW_TESTNET_ENDPOINT
+                Network.LOCAL -> Fcl.config.accessNodeEndpoint
+                Network.CANARYNET -> throw Exception("Canarynet not available")
+                null -> throw Exception("Network must be specified")
+            }
         )
 
     suspend fun verifyAccountProof(
