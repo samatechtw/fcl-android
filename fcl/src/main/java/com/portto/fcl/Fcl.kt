@@ -6,9 +6,7 @@ import com.nftco.flow.sdk.FlowTransactionResult
 import com.nftco.flow.sdk.cadence.Field
 import com.portto.fcl.config.AppDetail
 import com.portto.fcl.config.Config
-import com.portto.fcl.config.Config.Option.App
-import com.portto.fcl.config.Config.Option.Env
-import com.portto.fcl.config.Config.Option.WalletProviders
+import com.portto.fcl.config.Config.Option.*
 import com.portto.fcl.config.Network
 import com.portto.fcl.model.CompositeSignature
 import com.portto.fcl.model.Result
@@ -29,11 +27,19 @@ object Fcl {
 
     var currentUser: User? = null
 
-    fun init(env: Network, supportedWallets: List<Provider>, appDetail: AppDetail? = null): Config =
+    fun init(
+        env: Network,
+        supportedWallets: List<Provider>,
+        appDetail: AppDetail? = null,
+        accessNodeEndpoint: String? = null,
+        authnUrl: String? = null
+    ): Config =
         config.apply {
             put(Env(env))
             put(WalletProviders(supportedWallets))
             put(App(appDetail))
+            put(AccessNodeEndpoint(accessNodeEndpoint))
+            put(AuthnUrl(authnUrl))
         }
 
     /**

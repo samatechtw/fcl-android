@@ -23,6 +23,12 @@ object Config {
     var addressReplacement: List<Replacement> = emptyList()
         private set
 
+    var accessNodeEndpoint: String = ""
+        private set
+
+    var authnUrl: String = ""
+        private set
+
     fun put(option: Option): Config = apply {
         when (option) {
             is Option.Env -> env = option.value
@@ -35,6 +41,8 @@ object Config {
             }
             is Option.SelectedWalletProvider -> selectedWalletProvider = option.value
             is Option.AddressReplacement -> addressReplacement = option.value
+            is Option.AccessNodeEndpoint -> accessNodeEndpoint = (option.value ?: "")
+            is Option.AuthnUrl -> authnUrl = (option.value ?: "")
         }
     }
 
@@ -52,5 +60,7 @@ object Config {
         class WalletProviders(val value: List<Provider>) : Option()
         class SelectedWalletProvider(val value: Provider) : Option()
         class AddressReplacement(val value: List<Replacement>) : Option()
+        class AccessNodeEndpoint(val value: String?) : Option()
+        class AuthnUrl(val value: String?) : Option()
     }
 }
